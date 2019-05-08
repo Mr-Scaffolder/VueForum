@@ -1,28 +1,71 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
+  <v-app>
+    <div v-if="is_authenticated">
+      <v-toolbar app class="app_toolbar white--text">
+        <v-toolbar-title class="headline text-uppercase">
+          Vueforum
+        </v-toolbar-title>
+        <v-spacer></v-spacer>
+        <v-autocomplete v-model="model" :items="questions" persistent-hint class="app-searchbar  mt-3" append-icon="false" placeholder="Search For All Threads...." @change="search"></v-autocomplete>
+        <v-btn small fab class="pink accent-3 white--text">
+            <v-icon>
+              power_settings_new 
+            </v-icon>
+        </v-btn>
+      </v-toolbar>
+    </div>
+
+    <v-content>
+      <router-view></router-view>
+    </v-content>
+  </v-app>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+  export default {
+    name: "App",
+    components: {},
 
-export default {
-  name: 'app',
-  components: {
-    HelloWorld
-  }
-}
+    data() {
+      return {
+        routes_with_no_navbars: ["welcome"],
+        model: null,
+        questions: [
+          'Is Building A Monopoly A Good Thing ?',
+          'Is Partying with friends a bad thing  ?',
+          'Which Racer has won the formula 1 the most number of times ?',
+          'Is Civil Enginnering the most toughest field of engineering ?',
+          'Whats the differecne between Devops and Software Developer ?'
+        ]
+
+      };
+    },
+    methods:{
+      search(){
+        // make an api call to search and then return items to list
+      }
+    },
+    computed: {
+      is_authenticated() {
+        return this.$store.getters.is_authenticated;
+      },
+    }
+  };
 </script>
-
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+  .app_toolbar {
+    background: linear-gradient(to right, #0b3360, #1565c0) !important;
+  }
+
+  .app-searchbar{
+    width: 0px !important;
+    
+  }
+
+  input{
+    background: white !important;
+    border-radius: 1000px;
+    padding: 20px !important; 
+    
+  }
 </style>
